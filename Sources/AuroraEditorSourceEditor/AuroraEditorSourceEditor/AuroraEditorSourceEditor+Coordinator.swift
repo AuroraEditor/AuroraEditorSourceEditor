@@ -15,6 +15,7 @@ extension AuroraEditorSourceEditor {
         weak var controller: TextViewController?
         var isUpdatingFromRepresentable: Bool = false
         var isUpdateFromTextView: Bool = false
+        private var lastExternalText: String = ""
 
         init(parent: AuroraEditorSourceEditor) {
             self.parent = parent
@@ -61,6 +62,20 @@ extension AuroraEditorSourceEditor {
                     )
                 }
             }
+            self.isUpdateFromTextView = false
+        }
+
+        func handleExternalTextChange() {
+            guard let controller = controller,
+                  case .binding(let binding) = parent.text,
+                  binding.wrappedValue != lastExternalText else {
+                return
+            }
+
+            isUpdatingFromRepresentable = true
+            controller.textView.setText(binding.wrappedValue)
+            lastExternalText = binding.wrappedValue
+            isUpdatingFromRepresentable = false
         }
 
         deinit {

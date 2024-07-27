@@ -155,6 +155,8 @@ public class TextViewController: NSViewController {
 
     var highlighter: Highlighter?
 
+    var isSyntaxHighlightingDisabled: Bool?
+
     /// The tree sitter client managed by the source editor.
     ///
     /// This will be `nil` if another highlighter provider is passed to the source editor.
@@ -166,6 +168,8 @@ public class TextViewController: NSViewController {
     internal var textFilters: [TextFormation.Filter] = []
 
     internal var cancellables = Set<AnyCancellable>()
+
+    var onTextDidChange: ((String) -> Void)?
 
     /// ScrollView's bottom inset using as editor overscroll
     private var bottomContentInsets: CGFloat {
@@ -194,6 +198,7 @@ public class TextViewController: NSViewController {
         editorOverscroll: CGFloat,
         useThemeBackground: Bool,
         highlightProvider: HighlightProviding?,
+        isSyntaxHighlightingDisabled: Bool?,
         contentInsets: NSEdgeInsets?,
         isEditable: Bool,
         isSelectable: Bool,
@@ -212,6 +217,7 @@ public class TextViewController: NSViewController {
         self.editorOverscroll = editorOverscroll
         self.useThemeBackground = useThemeBackground
         self.highlightProvider = highlightProvider
+        self.isSyntaxHighlightingDisabled = isSyntaxHighlightingDisabled
         self.contentInsets = contentInsets
         self.isEditable = isEditable
         self.isSelectable = isSelectable

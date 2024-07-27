@@ -20,13 +20,18 @@ extension TextViewController {
             highlightProvider: highlightProvider,
             theme: theme,
             attributeProvider: self,
-            language: language
+            language: language,
+            isSyntaxHighlightingDisabled: isSyntaxHighlightingDisabled ?? false
         )
         textView.addStorageDelegate(highlighter!)
         setHighlightProvider(self.highlightProvider)
     }
 
     internal func setHighlightProvider(_ highlightProvider: HighlightProviding? = nil) {
+        if isSyntaxHighlightingDisabled == true {
+            return
+        }
+
         var provider: HighlightProviding?
 
         if let highlightProvider = highlightProvider {
@@ -34,6 +39,10 @@ extension TextViewController {
         } else {
             self.treeSitterClient = TreeSitterClient()
             provider = self.treeSitterClient!
+        }
+
+        if isSyntaxHighlightingDisabled == true {
+            return
         }
 
         if let provider = provider {

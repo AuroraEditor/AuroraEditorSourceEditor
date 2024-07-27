@@ -56,6 +56,8 @@ class Highlighter: NSObject {
     /// The length to chunk ranges into when passing to the highlighter.
     private let rangeChunkLimit = 1024
 
+    var isSyntaxHighlightingDisabled: Bool
+
     // MARK: - Init
 
     /// Initializes the `Highlighter`
@@ -68,15 +70,21 @@ class Highlighter: NSObject {
         highlightProvider: HighlightProviding?,
         theme: EditorTheme,
         attributeProvider: ThemeAttributesProviding,
-        language: CodeLanguage
+        language: CodeLanguage,
+        isSyntaxHighlightingDisabled: Bool
     ) {
         self.textView = textView
         self.highlightProvider = highlightProvider
         self.theme = theme
         self.attributeProvider = attributeProvider
         self.language = language
+        self.isSyntaxHighlightingDisabled = isSyntaxHighlightingDisabled
 
         super.init()
+
+        if isSyntaxHighlightingDisabled {
+            return
+        }
 
         highlightProvider?.setUp(textView: textView, codeLanguage: language)
 
@@ -101,6 +109,9 @@ class Highlighter: NSObject {
 
     /// Invalidates all text in the textview. Useful for updating themes.
     public func invalidate() {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
         guard let textView else { return }
         updateVisibleSet(textView: textView)
         invalidate(range: textView.documentRange)
@@ -109,6 +120,10 @@ class Highlighter: NSObject {
     /// Sets the language and causes a re-highlight of the entire text.
     /// - Parameter language: The language to update to.
     public func setLanguage(language: CodeLanguage) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
+
         guard let textView = self.textView else { return }
         // Remove all current highlights. Makes the language setting feel snappier and tells the user we're doing
         // something immediately.
@@ -126,6 +141,10 @@ class Highlighter: NSObject {
     /// Sets the highlight provider. Will cause a re-highlight of the entire text.
     /// - Parameter provider: The provider to use for future syntax highlights.
     public func setHighlightProvider(_ provider: HighlightProviding) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
+
         self.highlightProvider = provider
         guard let textView = self.textView else { return }
         highlightProvider?.setUp(textView: textView, codeLanguage: self.language)
@@ -146,6 +165,10 @@ private extension Highlighter {
     /// Invalidates a given range and adds it to the queue to be highlighted.
     /// - Parameter range: The range to invalidate.
     func invalidate(range: NSRange) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
+
         let set = IndexSet(integersIn: range)
 
         if set.isEmpty {
@@ -159,6 +182,9 @@ private extension Highlighter {
 
     /// Begins highlighting any invalid ranges
     func highlightInvalidRanges() {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
         // If there aren't any more ranges to highlight, don't do anything, otherwise continue highlighting
         // any available ranges.
         var rangesToQuery: [NSRange] = []
@@ -173,6 +199,9 @@ private extension Highlighter {
     /// Highlights the given ranges
     /// - Parameter ranges: The ranges to request highlights for.
     func queryHighlights(for rangesToHighlight: [NSRange]) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
         guard let textView else { return }
 
         if !Thread.isMainThread {
@@ -200,6 +229,9 @@ private extension Highlighter {
     ///   - results: The result of a highlight query.
     ///   - rangeToHighlight: The range to apply the highlight to.
     private func applyHighlightResult(_ results: [HighlightRange], rangeToHighlight: NSRange) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
         guard let attributeProvider = self.attributeProvider else {
             return
         }
@@ -247,6 +279,9 @@ private extension Highlighter {
     /// Gets the next `NSRange` to highlight based on the invalid set, visible set, and pending set.
     /// - Returns: An `NSRange` to highlight if it could be fetched.
     func getNextRange() -> NSRange? {
+        if isSyntaxHighlightingDisabled {
+            return nil
+        }
         let set: IndexSet = IndexSet(integersIn: textView?.documentRange ?? .zero) // All text
             .subtracting(validSet) // Subtract valid = Invalid set
             .intersection(visibleSet) // Only visible indexes
@@ -269,6 +304,9 @@ private extension Highlighter {
 
 private extension Highlighter {
     private func updateVisibleSet(textView: TextView) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
         if let newVisibleRange = textView.visibleTextRange {
             visibleSet = IndexSet(integersIn: newVisibleRange)
         }
@@ -276,6 +314,10 @@ private extension Highlighter {
 
     /// Updates the view to highlight newly visible text when the textview is scrolled or bounds change.
     @objc func visibleTextChanged(_ notification: Notification) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
+
         let textView: TextView
         if let clipView = notification.object as? NSClipView,
            let documentView = clipView.enclosingScrollView?.documentView as? TextView {
@@ -302,6 +344,10 @@ private extension Highlighter {
 
 extension Highlighter {
     func storageDidEdit(editedRange: NSRange, delta: Int) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
+
         guard let textView else { return }
 
         let range = NSRange(location: editedRange.location, length: editedRange.length - delta)
@@ -322,6 +368,10 @@ extension Highlighter {
     }
 
     func storageWillEdit(editedRange: NSRange) {
+        if isSyntaxHighlightingDisabled {
+            return
+        }
+
         guard let textView else { return }
         highlightProvider?.willApplyEdit(textView: textView, range: editedRange)
     }

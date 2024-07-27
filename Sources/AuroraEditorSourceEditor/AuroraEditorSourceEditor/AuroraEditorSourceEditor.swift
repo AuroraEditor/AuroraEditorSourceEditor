@@ -33,6 +33,7 @@ public struct AuroraEditorSourceEditor: NSViewControllerRepresentable {
     ///                         background color
     ///   - highlightProvider: A class you provide to perform syntax highlighting. Leave this as `nil` to use the
     ///                        built-in `TreeSitterClient` highlighter.
+    ///   - isSyntaxHighlightingDisabled: A boolean the allows disabling the syntax highliting for better performance.
     ///   - contentInsets: Insets to use to offset the content in the enclosing scroll view. Leave as `nil` to let the
     ///                    scroll view automatically adjust content insets.
     ///   - isEditable: A Boolean value that controls whether the text view allows the user to edit text.
@@ -57,6 +58,7 @@ public struct AuroraEditorSourceEditor: NSViewControllerRepresentable {
         cursorPositions: Binding<[CursorPosition]>,
         useThemeBackground: Bool = true,
         highlightProvider: HighlightProviding? = nil,
+        isSyntaxHighlightingDisabled: Bool? = false,
         contentInsets: NSEdgeInsets? = nil,
         isEditable: Bool = true,
         isSelectable: Bool = true,
@@ -77,6 +79,7 @@ public struct AuroraEditorSourceEditor: NSViewControllerRepresentable {
         self.editorOverscroll = editorOverscroll
         self.cursorPositions = cursorPositions
         self.highlightProvider = highlightProvider
+        self.isSyntaxHighlightingDisabled = isSyntaxHighlightingDisabled
         self.contentInsets = contentInsets
         self.isEditable = isEditable
         self.isSelectable = isSelectable
@@ -126,6 +129,7 @@ public struct AuroraEditorSourceEditor: NSViewControllerRepresentable {
         cursorPositions: Binding<[CursorPosition]>,
         useThemeBackground: Bool = true,
         highlightProvider: HighlightProviding? = nil,
+        isSyntaxHighlightingDisabled: Bool? = false,
         contentInsets: NSEdgeInsets? = nil,
         isEditable: Bool = true,
         isSelectable: Bool = true,
@@ -146,6 +150,7 @@ public struct AuroraEditorSourceEditor: NSViewControllerRepresentable {
         self.editorOverscroll = editorOverscroll
         self.cursorPositions = cursorPositions
         self.highlightProvider = highlightProvider
+        self.isSyntaxHighlightingDisabled = isSyntaxHighlightingDisabled
         self.contentInsets = contentInsets
         self.isEditable = isEditable
         self.isSelectable = isSelectable
@@ -167,6 +172,7 @@ public struct AuroraEditorSourceEditor: NSViewControllerRepresentable {
     package var cursorPositions: Binding<[CursorPosition]>
     private var useThemeBackground: Bool
     private var highlightProvider: HighlightProviding?
+    private var isSyntaxHighlightingDisabled: Bool?
     private var contentInsets: NSEdgeInsets?
     private var isEditable: Bool
     private var isSelectable: Bool
@@ -191,6 +197,7 @@ public struct AuroraEditorSourceEditor: NSViewControllerRepresentable {
             editorOverscroll: editorOverscroll,
             useThemeBackground: useThemeBackground,
             highlightProvider: highlightProvider,
+            isSyntaxHighlightingDisabled: isSyntaxHighlightingDisabled,
             contentInsets: contentInsets,
             isEditable: isEditable,
             isSelectable: isSelectable,
