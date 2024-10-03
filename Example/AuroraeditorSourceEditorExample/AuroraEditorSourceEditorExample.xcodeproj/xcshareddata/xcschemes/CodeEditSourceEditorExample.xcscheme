@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6C1365292B8A7B94004A1D18"
-               BuildableName = "CodeEditSourceEditorExample.app"
-               BlueprintName = "CodeEditSourceEditorExample"
-               ReferencedContainer = "container:CodeEditSourceEditorExample.xcodeproj">
+               BuildableName = "AuroraEditorSourceEditorExample.app"
+               BlueprintName = "AuroraEditorSourceEditorExample"
+               ReferencedContainer = "container:AuroraEditorSourceEditorExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6C1365292B8A7B94004A1D18"
-            BuildableName = "CodeEditSourceEditorExample.app"
-            BlueprintName = "CodeEditSourceEditorExample"
-            ReferencedContainer = "container:CodeEditSourceEditorExample.xcodeproj">
+            BuildableName = "AuroraEditorSourceEditorExample.app"
+            BlueprintName = "AuroraEditorSourceEditorExample"
+            ReferencedContainer = "container:AuroraEditorSourceEditorExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6C1365292B8A7B94004A1D18"
-            BuildableName = "CodeEditSourceEditorExample.app"
-            BlueprintName = "CodeEditSourceEditorExample"
-            ReferencedContainer = "container:CodeEditSourceEditorExample.xcodeproj">
+            BuildableName = "AuroraEditorSourceEditorExample.app"
+            BlueprintName = "AuroraEditorSourceEditorExample"
+            ReferencedContainer = "container:AuroraEditorSourceEditorExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

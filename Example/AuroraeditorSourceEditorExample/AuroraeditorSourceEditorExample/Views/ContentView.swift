@@ -12,9 +12,11 @@ import AuroraEditorTextView
 
 struct ContentView: View {
     @Binding var document: AuroraEditorSourceEditorExampleDocument
-    let fileURL: URL?
 
-    @State private var language: CodeLanguage = .default
+    let fileURL: URL?
+    
+    @State private var language: CodeLanguage = CodeLanguage.allLanguages[0]
+    @State private var languageStr: String = CodeLanguage.allLanguages[0].id.rawValue
     @State private var theme: EditorTheme = .standard
     @State private var font: NSFont = NSFont.monospacedSystemFont(ofSize: 12, weight: .regular)
     @AppStorage("wrapLines") private var wrapLines: Bool = true
@@ -29,7 +31,7 @@ struct ContentView: View {
         VStack(spacing: 0) {
             HStack {
                 Text("Language")
-                LanguagePicker(language: $language)
+                LanguagePicker(languageStr: $languageStr)
                     .frame(maxWidth: 100)
                 Toggle("Wrap Lines", isOn: $wrapLines)
                 Spacer()
@@ -50,8 +52,16 @@ struct ContentView: View {
                 cursorPositions: $cursorPositions
             )
         }
+        .onChange(of: languageStr, perform: { newValue in
+           for l in CodeLanguage.allLanguages {
+               if l.id.rawValue == newValue {
+                   language = l
+               }
+           }
+        })
         .onAppear {
-            self.language = detectLanguage(fileURL: fileURL) ?? .default
+            let dl = detectLanguage(fileURL: fileURL) ?? CodeLanguage.allLanguages[0]
+            self.languageStr = dl.id.rawValue
         }
     }
 
