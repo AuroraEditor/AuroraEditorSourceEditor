@@ -1,21 +1,21 @@
 {
   "pins" : [
     {
-      "identity" : "codeeditlanguages",
+      "identity" : "auroraeditorlanguage",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CodeEditApp/CodeEditLanguages.git",
+      "location" : "https://github.com/AuroraEditor/AuroraEditorLanguage.git",
       "state" : {
-        "revision" : "5b27f139269e1ea49ceae5e56dca44a3ccad50a1",
-        "version" : "0.1.19"
+        "branch" : "main",
+        "revision" : "5913b97306746894172f9976c96fd67a8b094b44"
       }
     },
     {
-      "identity" : "codeedittextview",
+      "identity" : "auroraeditortextview",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CodeEditApp/CodeEditTextView.git",
+      "location" : "https://github.com/AuroraEditor/AuroraEditorTextView.git",
       "state" : {
-        "revision" : "80911be6bcdae5e35ef5ed351adf6dda9b57e555",
-        "version" : "0.7.4"
+        "branch" : "main",
+        "revision" : "aa4a710d40c41af90a28109b35bd1dea637515f6"
       }
     },
     {
@@ -43,15 +43,6 @@
       "state" : {
         "revision" : "94cf62b3ba8d4bed62680a282d4c25f9c63c2efb",
         "version" : "1.1.0"
-      }
-    },
-    {
-      "identity" : "swiftlintplugin",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/lukepistrol/SwiftLintPlugin",
-      "state" : {
-        "revision" : "ea6d3ca895b49910f790e98e4b4ca658e0fe490e",
-        "version" : "0.54.0"
       }
     },
     {

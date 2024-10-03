@@ -16,9 +16,7 @@ struct AuroraEditorSourceEditorExampleDocument: FileDocument {
     }
 
     static var readableContentTypes: [UTType] {
-        [
-            .item
-        ]
+        [.item]
     }
 
     init(configuration: ReadConfiguration) throws {

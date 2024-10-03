@@ -9,16 +9,15 @@ import SwiftUI
 import AuroraEditorLanguage
 
 struct LanguagePicker: View {
-    @Binding var language: CodeLanguage
+    @Binding var languageStr: String
 
     var body: some View {
         Picker(
             "Language",
-            selection: $language
+            selection: $languageStr
         ) {
-            ForEach([.default] + CodeLanguage.allLanguages, id: \.id) { language in
-                Text(language.id.rawValue)
-                    .tag(language)
+            ForEach(CodeLanguage.allLanguages, id: \.id) { language in
+                Text(language.id.rawValue).tag(language.id.rawValue)
             }
         }
         .labelsHidden()
@@ -26,5 +25,7 @@ struct LanguagePicker: View {
 }
 
 #Preview {
-    LanguagePicker(language: .constant(.swift))
+    LanguagePicker(
+        languageStr: .constant(PlainTextLanguageHandler().getLanguage().id.rawValue)
+    )
 }
