@@ -39,7 +39,7 @@ extension TextViewController: TextViewDelegate {
         return shouldApplyMutation(mutation, to: textView)
     }
 
-    func textViewDidChange(
+    public func textViewDidChange(
         _ textView: TextView,
         newText: String
     ) {
